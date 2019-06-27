@@ -3,7 +3,7 @@ pipeline {
     stages {
      stage("build on rasp") {
        agent { 
-            rasp
+            label 'rasp'
        }
        stages {
             stage('Git Checkout'){
@@ -28,7 +28,7 @@ pipeline {
      }
      stage("deploy to prod") {
        agent {
-           appserver
+           label 'appserver'
        }
        stages {
          stage('Remove old Container release'){
