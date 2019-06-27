@@ -33,8 +33,8 @@ pipeline {
        stages {
          stage('Remove old Container release'){
              steps{
-                sh 'docker stop woodez-corp'
-                sh 'docker rm woodez-corp'
+                sh 'echo "docker stop woodez-corp"'
+                sh 'echo "docker rm woodez-corp"'
              }
          }
  
