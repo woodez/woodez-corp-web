@@ -3,7 +3,7 @@ pipeline {
     stages {
      stage("build on rasp") {
        agent { 
-            label 'rasp'
+            label 'appserver'
        }
        stages {
             stage('Git Checkout'){
@@ -24,11 +24,16 @@ pipeline {
                     sh 'docker push kwood475/woodez-corp-web:2.0.0'
                 }
             } 
+            stage('run'){
+                steps {
+                  sh 'docker run --name woodez-corp -p 80:80 -d kwood475/woodez-corp-web:2.0.0'
+                }
         } 
+        
      }
      stage("deploy to prod") {
        agent {
-           label 'appserver'
+           label 'rasp'
        }
        stages {
          stage('Remove old Container release'){
@@ -37,6 +42,8 @@ pipeline {
                 sh 'echo "docker rm woodez-corp"'
              }
          }
+ 
+         
  
          stage('Release Container on Server'){
              steps{
