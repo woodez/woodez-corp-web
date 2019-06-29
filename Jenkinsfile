@@ -23,6 +23,8 @@ pipeline {
             }
         }
         
+        input id: 'Release', message: 'Approve release to prod', ok: 'Approve', parameters: [booleanParam(defaultValue: true, description: 'approver status', name: 'approver_status')], submitter: 'kwood', submitterParameter: 'approvername'
+        
         stage('Release Container prod'){
             agent { label 'rasp' }
             steps {
