@@ -2,15 +2,15 @@ pipeline {
     agent none
     stages {
         stage('Git Checkout'){
-            agent { label 'rasp'}
+            agent { label 'appserver'}
             git credentialsId: 'kevinwood75', url: 'https://github.com/woodez/woodez-corp-web.git', branch: 'master'
         }
         stage('Build Docker Image'){
-            agent { label 'rasp' }
+            agent { label 'appserver' }
             sh 'docker build -t kwood475/woodez-corp-web:2.0.0 .'
         }
         stage('Push Docker Image'){
-            agent { label 'rasp'}
+            agent { label 'appserver'}
             withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerhub')]) {
                sh "docker login -u kwood475 -p ${dockerhub}"
             }
