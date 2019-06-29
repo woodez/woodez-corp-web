@@ -2,6 +2,13 @@ pipeline {
     agent none
     notifyStarted()
     stages {
+        stage('Send alert that build has started'){
+            agent { label 'appserver'}
+            steps {
+                notifyStarted()
+            }
+        }
+
         stage('Git Checkout'){
             agent { label 'appserver'}
             steps {
