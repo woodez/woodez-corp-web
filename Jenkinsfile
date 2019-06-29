@@ -22,18 +22,18 @@ pipeline {
                 sh 'docker push kwood475/woodez-corp-web:2.0.0'
             }
         }
-        stage('Remove old Container release from prod'){
-            agent { label 'rasp' }
-            steps {
-                sh 'docker stop woodez-corp'
-                sh 'docker rm woodez-corp'
-            }
-        }
+#        stage('Remove old Container release from prod'){
+#            agent { label 'rasp' }
+#            steps {
+#                sh 'docker stop woodez-corp'
+#                sh 'docker rm woodez-corp'
+#            }
+#        }
 
         stage('Release Container prod'){
             agent { label 'rasp' }
             steps {
-                sh 'docker run --name woodez-corp -p 80:80 -d kwood475/woodez-corp-web:2.0.0'
+                sh 'docker run --rm --name woodez-corp -p 80:80 -d kwood475/woodez-corp-web:2.0.0'
             }
         } 
     }
