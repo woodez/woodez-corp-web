@@ -1,5 +1,6 @@
 pipeline {
     agent none
+    notifyStarted()
     stages {
         stage('Git Checkout'){
             agent { label 'appserver'}
@@ -48,4 +49,8 @@ pipeline {
             }
         } 
     }
+}
+
+def notifyStarted() {
+  slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
