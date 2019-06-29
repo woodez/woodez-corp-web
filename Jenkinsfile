@@ -26,11 +26,13 @@ pipeline {
         stage('get appproval for prod release'){
             agent { label 'rasp' }
             steps {
-                sh 'docker run --rm --name woodez-corp -p 80:80 -d kwood475/woodez-corp-web:2.0.0'
+                timeout(time: 30, unit: 'SECONDS') {
+                    script {
+                      def INPUT_PARAMS = input id: 'Release', message: 'Approve release to prod', ok: 'Approve', parameters: [booleanParam(defaultValue: true, description: 'approver status', name: 'approver_status')], submitter: 'kwood', submitterParameter: 'approvername'
+                    }
+                }  
             }
         }
-
-        input id: 'Release', message: 'Approve release to prod', ok: 'Approve', parameters: [booleanParam(defaultValue: true, description: 'approver status', name: 'approver_status')], submitter: 'kwood', submitterParameter: 'approvername'
         
         stage('Release Container prod'){
             agent { label 'rasp' }
