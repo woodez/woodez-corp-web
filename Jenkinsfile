@@ -58,6 +58,9 @@ pipeline {
         stage('Release Container prod2'){
             agent { label 'appserver'}
             steps {
+                withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerhub')]) {
+                   sh "docker login -u kwood475 -p ${dockerhub}"
+                }
                 sh 'docker rm -f woodez-corp || true'
                 sh 'docker run --name woodez-corp -p 8081:80 -d kwood0475/woodez-corp-web:2.0.0'
             }
