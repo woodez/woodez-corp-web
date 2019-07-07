@@ -48,12 +48,20 @@ pipeline {
             }
         }
 
-        stage('Release Container prod'){
+        stage('Release Container prod1'){
             agent { label 'rasp' }
             steps {
                 sh 'docker run --name woodez-corp -p 8081:80 -d kwood475/woodez-corp-web:2.0.0'
             }
         } 
+    
+        stage('Release Container prod2'){
+            agent { label 'appserver'}
+            steps {
+                sh 'docker rm -f woodez-corp || true'
+                sh 'docker run --name woodez-corp -p 8081:80 -d kwood0475/woodez-corp-web:2.0.0'
+            }
+        }
     }
 }
 
