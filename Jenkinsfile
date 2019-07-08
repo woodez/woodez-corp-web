@@ -31,7 +31,7 @@ pipeline {
         }
         
         stage('get appproval for prod release'){
-            agent { label 'appserver' }
+            agent { label 'rasp' }
             steps {
                 timeout(time: 30, unit: 'MINUTES') {
                     script {
@@ -42,14 +42,14 @@ pipeline {
         }
         
         stage('Remove older container before release'){
-            agent { label 'appserver' }
+            agent { label 'rasp' }
             steps {
                 sh 'docker rm -f woodez-corp || true'
             }
         }
 
         stage('Release Container prod1'){
-            agent { label 'appserver' }
+            agent { label 'rasp' }
             steps {
                 sh 'docker run --name woodez-corp -p 8081:80 -d kwood475/woodez-corp-web:2.0.0'
             }
